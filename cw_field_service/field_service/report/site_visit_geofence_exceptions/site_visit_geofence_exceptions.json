@@ -1,0 +1,31 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2026-09-09 10:00:00.000000",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "doc_type": "CW Site Visit",
+ "doctype": "Report",
+ "filters": [],
+ "is_standard": "Yes",
+ "modified": "2026-09-09 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Field Service",
+ "name": "Site Visit Geofence Exceptions",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "CW Site Visit",
+ "report_name": "Site Visit Geofence Exceptions",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "CW Service Manager"
+  },
+  {
+   "role": "CW Field Supervisor"
+  }
+ ]
+}

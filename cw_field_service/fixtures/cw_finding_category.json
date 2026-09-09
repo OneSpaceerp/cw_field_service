@@ -1,0 +1,47 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "CW Finding Category",
+  "name": "Scaling & Deposit",
+  "category_name": "Scaling & Deposit",
+  "default_severity": "Major",
+  "is_active": 1,
+  "description": "Mineral scale formation on heat transfer surfaces"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "CW Finding Category",
+  "name": "Corrosion",
+  "category_name": "Corrosion",
+  "default_severity": "Critical",
+  "is_active": 1,
+  "description": "Electrochemical or microbial metal corrosion"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "CW Finding Category",
+  "name": "Biological Fouling / Algae",
+  "category_name": "Biological Fouling / Algae",
+  "default_severity": "Major",
+  "is_active": 1,
+  "description": "Bacterial slime, biofilm or algae growth in basin or cooling pack"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "CW Finding Category",
+  "name": "Dosing Pump / Electrical Defect",
+  "category_name": "Dosing Pump / Electrical Defect",
+  "default_severity": "Critical",
+  "is_active": 1,
+  "description": "Chemical metering pump failure or electrical power loss"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "CW Finding Category",
+  "name": "Pipeline / Valve Leakage",
+  "category_name": "Pipeline / Valve Leakage",
+  "default_severity": "Minor",
+  "is_active": 1,
+  "description": "Water or chemical leakage around valves, fittings or pipes"
+ }
+]

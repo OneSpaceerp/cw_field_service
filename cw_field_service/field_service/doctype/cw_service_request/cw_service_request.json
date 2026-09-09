@@ -1,0 +1,206 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-09-09 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "customer",
+  "customer_name",
+  "service_location",
+  "request_type",
+  "priority",
+  "status",
+  "col_break_1",
+  "requested_date",
+  "sla_target_hours",
+  "response_due_date",
+  "assigned_supervisor",
+  "assigned_engineer",
+  "section_details",
+  "issue_description",
+  "section_resolution",
+  "resolved_date",
+  "resolution_summary",
+  "closure_remarks"
+ ],
+ "fields": [
+  {
+   "default": "SR-.YYYY.-.####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "SR-.YYYY.-.####",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "service_location",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Service Location / Site",
+   "options": "CW Service Location",
+   "reqd": 1
+  },
+  {
+   "fieldname": "request_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Request Type",
+   "options": "CW Service Type",
+   "reqd": 1
+  },
+  {
+   "default": "Medium",
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Priority",
+   "options": "Low\nMedium\nHigh\nCritical",
+   "reqd": 1
+  },
+  {
+   "default": "Open",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Open\nScheduled\nIn Progress\nResolved\nClosed\nCancelled",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "requested_date",
+   "fieldtype": "Date",
+   "label": "Requested Date"
+  },
+  {
+   "default": "24",
+   "fieldname": "sla_target_hours",
+   "fieldtype": "Int",
+   "label": "SLA Target (Hours)"
+  },
+  {
+   "fieldname": "response_due_date",
+   "fieldtype": "Datetime",
+   "label": "Response Due Date"
+  },
+  {
+   "fieldname": "assigned_supervisor",
+   "fieldtype": "Link",
+   "label": "Assigned Supervisor",
+   "options": "User"
+  },
+  {
+   "fieldname": "assigned_engineer",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Assigned Engineer",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "section_details",
+   "fieldtype": "Section Break",
+   "label": "Issue & Demand Details"
+  },
+  {
+   "fieldname": "issue_description",
+   "fieldtype": "Small Text",
+   "label": "Issue Description / Request Scope",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_resolution",
+   "fieldtype": "Section Break",
+   "label": "Resolution & Closure"
+  },
+  {
+   "fieldname": "resolved_date",
+   "fieldtype": "Datetime",
+   "label": "Resolved Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "resolution_summary",
+   "fieldtype": "Small Text",
+   "label": "Resolution Summary"
+  },
+  {
+   "fieldname": "closure_remarks",
+   "fieldtype": "Small Text",
+   "label": "Closure Remarks"
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-09 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Field Service",
+ "name": "CW Service Request",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CW Service Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "CW Field Supervisor",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "CW Field Engineer",
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

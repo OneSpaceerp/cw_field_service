@@ -1,0 +1,87 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-09-09 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "parameter",
+  "parameter_name",
+  "reading_value",
+  "unit",
+  "min_range",
+  "max_range",
+  "status",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "parameter",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Water Parameter",
+   "options": "CW Water Parameter Master",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "parameter.parameter_name",
+   "fieldname": "parameter_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Parameter Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reading_value",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Measured Value",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "parameter.unit",
+   "fieldname": "unit",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Unit",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "parameter.default_min_value",
+   "fieldname": "min_range",
+   "fieldtype": "Float",
+   "label": "Min Range"
+  },
+  {
+   "fetch_from": "parameter.default_max_value",
+   "fieldname": "max_range",
+   "fieldtype": "Float",
+   "label": "Max Range"
+  },
+  {
+   "default": "Normal",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Normal\nWarning\nCritical"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks / Observation"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-09-09 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Field Service",
+ "name": "CW Visit Reading",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "idx",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 1
+}

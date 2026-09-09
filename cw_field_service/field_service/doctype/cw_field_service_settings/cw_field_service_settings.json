@@ -1,0 +1,108 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-09-09 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_gps",
+  "default_geofence_radius_meters",
+  "warning_buffer_meters",
+  "col_break_1",
+  "allow_checkin_without_gps",
+  "require_reason_for_gps_exception",
+  "section_workflow",
+  "auto_close_request_on_visit_approval",
+  "notify_supervisor_on_critical_finding",
+  "supervisor_notification_email"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_gps",
+   "fieldtype": "Section Break",
+   "label": "GPS & Geofence Policy"
+  },
+  {
+   "default": "200.0",
+   "fieldname": "default_geofence_radius_meters",
+   "fieldtype": "Float",
+   "label": "Default Geofence Radius (Meters)",
+   "reqd": 1
+  },
+  {
+   "default": "300.0",
+   "fieldname": "warning_buffer_meters",
+   "fieldtype": "Float",
+   "label": "Warning Buffer (Meters)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "allow_checkin_without_gps",
+   "fieldtype": "Check",
+   "label": "Allow Check-in without GPS (with reason)"
+  },
+  {
+   "default": "1",
+   "fieldname": "require_reason_for_gps_exception",
+   "fieldtype": "Check",
+   "label": "Require Reason for GPS Exception"
+  },
+  {
+   "fieldname": "section_workflow",
+   "fieldtype": "Section Break",
+   "label": "Workflow & Notifications"
+  },
+  {
+   "default": "1",
+   "fieldname": "auto_close_request_on_visit_approval",
+   "fieldtype": "Check",
+   "label": "Auto-resolve Service Request upon Visit Approval"
+  },
+  {
+   "default": "1",
+   "fieldname": "notify_supervisor_on_critical_finding",
+   "fieldtype": "Check",
+   "label": "Notify Supervisor on Critical Finding"
+  },
+  {
+   "fieldname": "supervisor_notification_email",
+   "fieldtype": "Data",
+   "label": "Supervisor Notification Email"
+  }
+ ],
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-09-09 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Field Service",
+ "name": "CW Field Service Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "CW Service Manager",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

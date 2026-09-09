@@ -1,0 +1,38 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "CW Service Type",
+  "name": "Routine Water Inspection",
+  "service_type_name": "Routine Water Inspection",
+  "default_sla_hours": 48,
+  "is_active": 1,
+  "description": "Standard scheduled water sampling, parameter checking, and dosage verification"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "CW Service Type",
+  "name": "Emergency Breakdown",
+  "service_type_name": "Emergency Breakdown",
+  "default_sla_hours": 4,
+  "is_active": 1,
+  "description": "Urgent on-site dispatch for dosing failure, high TDS spike, or equipment stoppage"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "CW Service Type",
+  "name": "Chemical Cleaning & CIP",
+  "service_type_name": "Chemical Cleaning & CIP",
+  "default_sla_hours": 24,
+  "is_active": 1,
+  "description": "Clean-in-place chemical circulation for descaling or bio-fouling removal"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "CW Service Type",
+  "name": "Washing & Flushing",
+  "service_type_name": "Washing & Flushing",
+  "default_sla_hours": 24,
+  "is_active": 1,
+  "description": "Cooling tower basin washing, filter backwashing, or pipeline flushing"
+ }
+]

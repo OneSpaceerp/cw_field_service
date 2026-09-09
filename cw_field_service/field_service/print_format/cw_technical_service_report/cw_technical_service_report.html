@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+	.service-report-container {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		color: #1f2937;
+		padding: 24px;
+		max-width: 900px;
+		margin: 0 auto;
+		background: #ffffff;
+	}
+	.report-header {
+		border-bottom: 3px solid #0284c7;
+		padding-bottom: 16px;
+		margin-bottom: 24px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.brand-title {
+		font-size: 26px;
+		font-weight: 800;
+		color: #0369a1;
+		margin: 0;
+	}
+	.brand-sub {
+		font-size: 13px;
+		color: #64748b;
+		margin-top: 4px;
+	}
+	.report-meta {
+		text-align: right;
+	}
+	.report-id {
+		font-size: 18px;
+		font-weight: 700;
+		color: #0f172a;
+	}
+	.status-badge {
+		display: inline-block;
+		padding: 4px 10px;
+		border-radius: 9999px;
+		font-size: 11px;
+		font-weight: 700;
+		text-transform: uppercase;
+		margin-top: 4px;
+	}
+	.status-approved { background: #dcfce7; color: #15803d; }
+	.status-pending { background: #fef9c3; color: #a16207; }
+	.status-progress { background: #e0f2fe; color: #0369a1; }
+	
+	.info-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 16px;
+		background: #f8fafc;
+		border: 1px solid #e2e8f0;
+		border-radius: 8px;
+		padding: 16px;
+		margin-bottom: 24px;
+	}
+	.info-item {
+		font-size: 13px;
+	}
+	.info-label {
+		font-weight: 600;
+		color: #475569;
+		margin-bottom: 2px;
+	}
+	.info-value {
+		color: #0f172a;
+		font-weight: 500;
+	}
+
+	.section-title {
+		font-size: 16px;
+		font-weight: 700;
+		color: #0f172a;
+		border-left: 4px solid #0284c7;
+		padding-left: 10px;
+		margin: 24px 0 12px 0;
+	}
+
+	table.report-table {
+		width: 100%;
+		border-collapse: collapse;
+		margin-bottom: 20px;
+		font-size: 12px;
+	}
+	table.report-table th {
+		background: #f1f5f9;
+		color: #334155;
+		font-weight: 700;
+		text-align: left;
+		padding: 10px;
+		border-bottom: 2px solid #cbd5e1;
+	}
+	table.report-table td {
+		padding: 9px 10px;
+		border-bottom: 1px solid #e2e8f0;
+		color: #1e293b;
+	}
+	.badge-normal { background: #dcfce7; color: #166534; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+	.badge-warning { background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+	.badge-critical { background: #fee2e2; color: #991b1b; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+
+	.summary-box {
+		background: #f0fdf4;
+		border: 1px solid #bbf7d0;
+		border-radius: 6px;
+		padding: 14px;
+		font-size: 13px;
+		margin-bottom: 24px;
+		color: #14532d;
+	}
+
+	.sign-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 32px;
+		margin-top: 40px;
+		padding-top: 20px;
+		border-top: 1px dashed #cbd5e1;
+	}
+	.sign-box {
+		border: 1px solid #e2e8f0;
+		border-radius: 6px;
+		padding: 16px;
+		text-align: center;
+	}
+	.sign-img {
+		max-height: 70px;
+		margin-bottom: 8px;
+	}
+	.sign-label {
+		font-size: 12px;
+		font-weight: 600;
+		color: #64748b;
+	}
+</style>
+</head>
+<body>
+<div class="service-report-container">
+	<div class="report-header">
+		<div>
+			<h1 class="brand-title">C-WATER (SEA WATER)</h1>
+			<div class="brand-sub">Technical Field Service & Water Inspection Report</div>
+		</div>
+		<div class="report-meta">
+			<div class="report-id">{{ doc.name }}</div>
+			<div class="status-badge {% if doc.visit_status == 'Approved' %}status-approved{% elif doc.visit_status == 'In Progress' %}status-progress{% else %}status-pending{% endif %}">
+				{{ doc.visit_status }}
+			</div>
+			<div style="font-size: 11px; color: #64748b; margin-top: 4px;">Date: {{ frappe.utils.formatdate(doc.planned_date) }}</div>
+		</div>
+	</div>
+
+	<!-- Information Grid -->
+	<div class="info-grid">
+		<div class="info-item">
+			<div class="info-label">Customer</div>
+			<div class="info-value">{{ doc.customer_name or doc.customer }}</div>
+		</div>
+		<div class="info-item">
+			<div class="info-label">Site / Service Location</div>
+			<div class="info-value">{{ doc.service_location }}</div>
+		</div>
+		<div class="info-item">
+			<div class="info-label">Assigned Engineer</div>
+			<div class="info-value">{{ doc.engineer_name or doc.assigned_engineer }}</div>
+		</div>
+		<div class="info-item">
+			<div class="info-label">Service Type & Priority</div>
+			<div class="info-value">{{ doc.visit_type }} | {{ doc.priority }}</div>
+		</div>
+		<div class="info-item">
+			<div class="info-label">GPS Geofence Verification</div>
+			<div class="info-value">
+				{{ doc.geofence_status or 'N/A' }} 
+				{% if doc.distance_to_site_meters %}({{ doc.distance_to_site_meters }} m from site){% endif %}
+			</div>
+		</div>
+		<div class="info-item">
+			<div class="info-label">Visit Duration</div>
+			<div class="info-value">{{ doc.visit_duration_minutes or 0 }} minutes</div>
+		</div>
+	</div>
+
+	{% if doc.executive_summary %}
+	<div class="section-title">Executive Summary</div>
+	<div class="summary-box">
+		{{ doc.executive_summary }}
+	</div>
+	{% endif %}
+
+	<!-- Water Readings Table -->
+	{% if doc.readings and doc.readings|length > 0 %}
+	<div class="section-title">Technical Water Quality Measurements</div>
+	<table class="report-table">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Parameter</th>
+				<th>Measured Value</th>
+				<th>Unit</th>
+				<th>Target Range</th>
+				<th>Status</th>
+				<th>Remarks</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for row in doc.readings %}
+			<tr>
+				<td>{{ loop.index }}</td>
+				<td><strong>{{ row.parameter_name or row.parameter }}</strong></td>
+				<td>{{ row.reading_value }}</td>
+				<td>{{ row.unit or '' }}</td>
+				<td>{{ row.min_range or '-' }} - {{ row.max_range or '-' }}</td>
+				<td>
+					<span class="{% if row.status == 'Normal' %}badge-normal{% elif row.status == 'Critical' %}badge-critical{% else %}badge-warning{% endif %}">
+						{{ row.status }}
+					</span>
+				</td>
+				<td>{{ row.remarks or '' }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+
+	<!-- Technical Checklist Items -->
+	{% if doc.checklist_items and doc.checklist_items|length > 0 %}
+	<div class="section-title">Inspection Checklist</div>
+	<table class="report-table">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Checklist Item</th>
+				<th>Response</th>
+				<th>Remarks</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for item in doc.checklist_items %}
+			<tr>
+				<td>{{ loop.index }}</td>
+				<td>{{ item.checklist_item }}</td>
+				<td><strong>{{ item.response }}</strong></td>
+				<td>{{ item.remarks or '' }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+
+	<!-- Findings & Observations -->
+	{% if doc.findings and doc.findings|length > 0 %}
+	<div class="section-title">Findings & Recommendations</div>
+	<table class="report-table">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Category</th>
+				<th>Severity</th>
+				<th>Observation</th>
+				<th>Recommendation</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for f in doc.findings %}
+			<tr>
+				<td>{{ loop.index }}</td>
+				<td>{{ f.category }}</td>
+				<td>
+					<span class="{% if f.severity == 'Critical' %}badge-critical{% elif f.severity == 'Major' %}badge-warning{% else %}badge-normal{% endif %}">
+						{{ f.severity }}
+					</span>
+				</td>
+				<td>{{ f.observation }}</td>
+				<td>{{ f.recommendation or '' }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+
+	<!-- Washing & Cleaning Operations -->
+	{% if doc.operations and doc.operations|length > 0 %}
+	<div class="section-title">Service Operations & Flushing Log</div>
+	<table class="report-table">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Operation</th>
+				<th>Equipment Area</th>
+				<th>Duration</th>
+				<th>Chemicals Used</th>
+				<th>Outcome</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for op in doc.operations %}
+			<tr>
+				<td>{{ loop.index }}</td>
+				<td>{{ op.operation_type }}</td>
+				<td>{{ op.area_or_equipment }}</td>
+				<td>{{ op.duration_minutes }} min</td>
+				<td>{{ op.chemicals_used or 'N/A' }}</td>
+				<td><strong>{{ op.outcome }}</strong></td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+
+	<!-- Signatures -->
+	<div class="sign-grid">
+		<div class="sign-box">
+			<div class="sign-label">Field Engineer</div>
+			<div style="font-weight: 700; margin-top: 10px; color: #0f172a;">{{ doc.engineer_name or doc.assigned_engineer }}</div>
+			<div style="font-size: 11px; color: #64748b; margin-top: 4px;">C-Water Technical Team</div>
+		</div>
+		<div class="sign-box">
+			<div class="sign-label">Customer Sign-off & Acknowledgement</div>
+			{% if doc.customer_signature %}
+				<img src="{{ doc.customer_signature }}" class="sign-img" alt="Signature">
+			{% else %}
+				<div style="height: 50px;"></div>
+			{% endif %}
+			<div style="font-weight: 700; color: #0f172a;">{{ doc.customer_representative or 'Customer Representative' }}</div>
+			<div style="font-size: 11px; color: #64748b; margin-top: 4px;">{{ doc.customer_representative_phone or '' }}</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:category_name",
+ "creation": "2026-09-09 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "category_name",
+  "default_severity",
+  "is_active",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "category_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Finding Category Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "default": "Minor",
+   "fieldname": "default_severity",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Default Severity",
+   "options": "Info\nMinor\nMajor\nCritical",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-09 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Field Service",
+ "name": "CW Finding Category",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CW Service Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "CW Field Supervisor"
+  },
+  {
+   "read": 1,
+   "role": "CW Field Engineer"
+  }
+ ],
+ "sort_field": "category_name",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 1
+}

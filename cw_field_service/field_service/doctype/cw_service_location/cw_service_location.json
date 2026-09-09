@@ -1,0 +1,185 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:LOC-{site_code}",
+ "creation": "2026-09-09 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "site_code",
+  "location_name",
+  "customer",
+  "customer_name",
+  "is_active",
+  "col_break_1",
+  "latitude",
+  "longitude",
+  "geofence_radius_meters",
+  "water_source_type",
+  "section_contact",
+  "primary_contact_person",
+  "primary_contact_phone",
+  "primary_contact_email",
+  "col_break_2",
+  "address_display",
+  "operating_hours",
+  "section_notes",
+  "special_site_instructions"
+ ],
+ "fields": [
+  {
+   "fieldname": "site_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Site Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "location_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Location / Site Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active"
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "latitude",
+   "fieldtype": "Float",
+   "label": "Latitude",
+   "precision": "6"
+  },
+  {
+   "fieldname": "longitude",
+   "fieldtype": "Float",
+   "label": "Longitude",
+   "precision": "6"
+  },
+  {
+   "default": "200.0",
+   "fieldname": "geofence_radius_meters",
+   "fieldtype": "Float",
+   "label": "Geofence Radius (Meters)"
+  },
+  {
+   "fieldname": "water_source_type",
+   "fieldtype": "Select",
+   "label": "Primary Water Source",
+   "options": "Municipal\nWell / Groundwater\nRiver / Surface\nSea Water Desalination\nRecycled Water"
+  },
+  {
+   "fieldname": "section_contact",
+   "fieldtype": "Section Break",
+   "label": "Site Contact & Address"
+  },
+  {
+   "fieldname": "primary_contact_person",
+   "fieldtype": "Data",
+   "label": "Contact Person"
+  },
+  {
+   "fieldname": "primary_contact_phone",
+   "fieldtype": "Data",
+   "label": "Contact Phone"
+  },
+  {
+   "fieldname": "primary_contact_email",
+   "fieldtype": "Data",
+   "label": "Contact Email"
+  },
+  {
+   "fieldname": "col_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "address_display",
+   "fieldtype": "Small Text",
+   "label": "Site Address"
+  },
+  {
+   "fieldname": "operating_hours",
+   "fieldtype": "Data",
+   "label": "Operating Hours / Access Window"
+  },
+  {
+   "fieldname": "section_notes",
+   "fieldtype": "Section Break",
+   "label": "Instructions & Equipment"
+  },
+  {
+   "fieldname": "special_site_instructions",
+   "fieldtype": "Text",
+   "label": "Special Site / Safety Instructions"
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-09 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Field Service",
+ "name": "CW Service Location",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CW Service Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "CW Field Supervisor",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "CW Field Engineer"
+  }
+ ],
+ "sort_field": "location_name",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 1
+}

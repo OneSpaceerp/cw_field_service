@@ -1,0 +1,474 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-09-09 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "service_request",
+  "customer",
+  "customer_name",
+  "service_location",
+  "assigned_engineer",
+  "engineer_name",
+  "supervisor",
+  "col_break_1",
+  "visit_type",
+  "priority",
+  "visit_status",
+  "outcome",
+  "planned_date",
+  "planned_start_time",
+  "planned_end_time",
+  "section_checkin",
+  "checkin_time",
+  "checkin_latitude",
+  "checkin_longitude",
+  "checkin_accuracy",
+  "col_break_checkin",
+  "distance_to_site_meters",
+  "geofence_status",
+  "geofence_reason",
+  "section_checkout",
+  "checkout_time",
+  "checkout_latitude",
+  "checkout_longitude",
+  "checkout_accuracy",
+  "col_break_checkout",
+  "visit_duration_minutes",
+  "section_checklist",
+  "checklist_items",
+  "section_readings",
+  "readings",
+  "section_findings",
+  "findings",
+  "section_operations",
+  "operations",
+  "section_requirements",
+  "requirements",
+  "section_expenses",
+  "expenses",
+  "section_actions",
+  "actions",
+  "section_evidence",
+  "evidence",
+  "section_summary",
+  "executive_summary",
+  "customer_representative",
+  "customer_representative_phone",
+  "col_break_signature",
+  "customer_signature",
+  "section_review",
+  "supervisor_decision",
+  "supervisor_remarks",
+  "review_timestamp"
+ ],
+ "fields": [
+  {
+   "default": "VISIT-.YYYY.-.####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "VISIT-.YYYY.-.####",
+   "reqd": 1
+  },
+  {
+   "fieldname": "service_request",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Service Request",
+   "options": "CW Service Request"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "service_location",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Service Location",
+   "options": "CW Service Location",
+   "reqd": 1
+  },
+  {
+   "fieldname": "assigned_engineer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Assigned Engineer",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "assigned_engineer.employee_name",
+   "fieldname": "engineer_name",
+   "fieldtype": "Data",
+   "label": "Engineer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "supervisor",
+   "fieldtype": "Link",
+   "label": "Supervisor",
+   "options": "User"
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "visit_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Visit Type",
+   "options": "CW Service Type",
+   "reqd": 1
+  },
+  {
+   "default": "Medium",
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "label": "Priority",
+   "options": "Low\nMedium\nHigh\nCritical"
+  },
+  {
+   "default": "Planned",
+   "fieldname": "visit_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Visit Status",
+   "options": "Planned\nIn Progress\nPending Review\nApproved\nFollow-up Required\nCancelled",
+   "reqd": 1
+  },
+  {
+   "fieldname": "outcome",
+   "fieldtype": "Select",
+   "label": "Outcome",
+   "options": "Resolved\nPartially Resolved\nNot Resolved\nFollow-up Required\nCustomer Unavailable\nCancelled"
+  },
+  {
+   "default": "Today",
+   "fieldname": "planned_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Planned Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "planned_start_time",
+   "fieldtype": "Time",
+   "label": "Planned Start Time"
+  },
+  {
+   "fieldname": "planned_end_time",
+   "fieldtype": "Time",
+   "label": "Planned End Time"
+  },
+  {
+   "fieldname": "section_checkin",
+   "fieldtype": "Section Break",
+   "label": "Arrival & Check-in Evidence"
+  },
+  {
+   "fieldname": "checkin_time",
+   "fieldtype": "Datetime",
+   "label": "Check-in Timestamp",
+   "read_only": 1
+  },
+  {
+   "fieldname": "checkin_latitude",
+   "fieldtype": "Float",
+   "label": "Check-in Latitude",
+   "precision": "6",
+   "read_only": 1
+  },
+  {
+   "fieldname": "checkin_longitude",
+   "fieldtype": "Float",
+   "label": "Check-in Longitude",
+   "precision": "6",
+   "read_only": 1
+  },
+  {
+   "fieldname": "checkin_accuracy",
+   "fieldtype": "Float",
+   "label": "Check-in GPS Accuracy (Meters)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_break_checkin",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "distance_to_site_meters",
+   "fieldtype": "Float",
+   "label": "Distance to Site (Meters)",
+   "read_only": 1
+  },
+  {
+   "default": "Verified",
+   "fieldname": "geofence_status",
+   "fieldtype": "Select",
+   "label": "Geofence Status",
+   "options": "Verified\nWarning\nException",
+   "read_only": 1
+  },
+  {
+   "fieldname": "geofence_reason",
+   "fieldtype": "Small Text",
+   "label": "Geofence Exception Reason"
+  },
+  {
+   "fieldname": "section_checkout",
+   "fieldtype": "Section Break",
+   "label": "Completion & Check-out Evidence"
+  },
+  {
+   "fieldname": "checkout_time",
+   "fieldtype": "Datetime",
+   "label": "Check-out Timestamp",
+   "read_only": 1
+  },
+  {
+   "fieldname": "checkout_latitude",
+   "fieldtype": "Float",
+   "label": "Check-out Latitude",
+   "precision": "6",
+   "read_only": 1
+  },
+  {
+   "fieldname": "checkout_longitude",
+   "fieldtype": "Float",
+   "label": "Check-out Longitude",
+   "precision": "6",
+   "read_only": 1
+  },
+  {
+   "fieldname": "checkout_accuracy",
+   "fieldtype": "Float",
+   "label": "Check-out GPS Accuracy (Meters)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_break_checkout",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "visit_duration_minutes",
+   "fieldtype": "Float",
+   "label": "Visit Duration (Minutes)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_checklist",
+   "fieldtype": "Section Break",
+   "label": "Technical Checklist"
+  },
+  {
+   "fieldname": "checklist_items",
+   "fieldtype": "Table",
+   "label": "Checklist Items",
+   "options": "CW Visit Checklist Item"
+  },
+  {
+   "fieldname": "section_readings",
+   "fieldtype": "Section Break",
+   "label": "Water Quality Readings & Parameters"
+  },
+  {
+   "fieldname": "readings",
+   "fieldtype": "Table",
+   "label": "Water Readings",
+   "options": "CW Visit Reading"
+  },
+  {
+   "fieldname": "section_findings",
+   "fieldtype": "Section Break",
+   "label": "Findings & Observations"
+  },
+  {
+   "fieldname": "findings",
+   "fieldtype": "Table",
+   "label": "Site Findings",
+   "options": "CW Visit Finding"
+  },
+  {
+   "fieldname": "section_operations",
+   "fieldtype": "Section Break",
+   "label": "Washing & Operational Actions"
+  },
+  {
+   "fieldname": "operations",
+   "fieldtype": "Table",
+   "label": "Operations Log",
+   "options": "CW Visit Operation"
+  },
+  {
+   "fieldname": "section_requirements",
+   "fieldtype": "Section Break",
+   "label": "Equipment & Material Requirements"
+  },
+  {
+   "fieldname": "requirements",
+   "fieldtype": "Table",
+   "label": "Equipment / Materials",
+   "options": "CW Visit Requirement"
+  },
+  {
+   "fieldname": "section_expenses",
+   "fieldtype": "Section Break",
+   "label": "Site Expenses"
+  },
+  {
+   "fieldname": "expenses",
+   "fieldtype": "Table",
+   "label": "Expenses",
+   "options": "CW Visit Expense"
+  },
+  {
+   "fieldname": "section_actions",
+   "fieldtype": "Section Break",
+   "label": "Follow-up Actions"
+  },
+  {
+   "fieldname": "actions",
+   "fieldtype": "Table",
+   "label": "Actions",
+   "options": "CW Visit Action"
+  },
+  {
+   "fieldname": "section_evidence",
+   "fieldtype": "Section Break",
+   "label": "Photo & File Evidence"
+  },
+  {
+   "fieldname": "evidence",
+   "fieldtype": "Table",
+   "label": "Evidence",
+   "options": "CW Visit Evidence"
+  },
+  {
+   "fieldname": "section_summary",
+   "fieldtype": "Section Break",
+   "label": "Executive Summary & Customer Sign-off"
+  },
+  {
+   "fieldname": "executive_summary",
+   "fieldtype": "Small Text",
+   "label": "Executive Summary"
+  },
+  {
+   "fieldname": "customer_representative",
+   "fieldtype": "Data",
+   "label": "Customer Representative Name"
+  },
+  {
+   "fieldname": "customer_representative_phone",
+   "fieldtype": "Data",
+   "label": "Customer Representative Phone"
+  },
+  {
+   "fieldname": "col_break_signature",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "customer_signature",
+   "fieldtype": "Signature",
+   "label": "Customer Signature"
+  },
+  {
+   "fieldname": "section_review",
+   "fieldtype": "Section Break",
+   "label": "Supervisor Review & Approval"
+  },
+  {
+   "fieldname": "supervisor_decision",
+   "fieldtype": "Select",
+   "label": "Supervisor Decision",
+   "options": "Approved\nCorrection Required\nRejected"
+  },
+  {
+   "fieldname": "supervisor_remarks",
+   "fieldtype": "Small Text",
+   "label": "Supervisor Remarks / Notes"
+  },
+  {
+   "fieldname": "review_timestamp",
+   "fieldtype": "Datetime",
+   "label": "Review Timestamp",
+   "read_only": 1
+  }
+ ],
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-09-09 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Field Service",
+ "name": "CW Site Visit",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "cancel": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "CW Service Manager",
+   "submit": 1,
+   "cancel": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "CW Field Supervisor",
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "CW Field Engineer",
+   "write": 1
+  }
+ ],
+ "sort_field": "planned_date",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -1,0 +1,23 @@
+[
+ {
+  "doctype": "Role",
+  "name": "CW Field Engineer",
+  "role_name": "CW Field Engineer",
+  "desk_access": 1,
+  "is_custom": 1
+ },
+ {
+  "doctype": "Role",
+  "name": "CW Field Supervisor",
+  "role_name": "CW Field Supervisor",
+  "desk_access": 1,
+  "is_custom": 1
+ },
+ {
+  "doctype": "Role",
+  "name": "CW Service Manager",
+  "role_name": "CW Service Manager",
+  "desk_access": 1,
+  "is_custom": 1
+ }
+]

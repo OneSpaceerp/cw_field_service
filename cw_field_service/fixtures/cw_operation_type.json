@@ -1,0 +1,52 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "CW Operation Type",
+  "name": "Acid Descaling",
+  "operation_name": "Acid Descaling",
+  "category": "Chemical Treatment",
+  "standard_duration_hours": 3.0,
+  "is_active": 1,
+  "description": "Circulating inhibited acid to dissolve calcium/magnesium scale"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "CW Operation Type",
+  "name": "Alkaline Boilout / Degreasing",
+  "operation_name": "Alkaline Boilout / Degreasing",
+  "category": "Cleaning",
+  "standard_duration_hours": 4.0,
+  "is_active": 1,
+  "description": "Removing oils, grease, and protective coatings from new systems"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "CW Operation Type",
+  "name": "Basin Pressure Washing",
+  "operation_name": "Basin Pressure Washing",
+  "category": "Cleaning",
+  "standard_duration_hours": 2.0,
+  "is_active": 1,
+  "description": "Physical pressure washing of cooling tower sump and drift eliminators"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "CW Operation Type",
+  "name": "Biocide Shock Dosing",
+  "operation_name": "Biocide Shock Dosing",
+  "category": "Chemical Treatment",
+  "standard_duration_hours": 1.0,
+  "is_active": 1,
+  "description": "Slug-dosing non-oxidizing or oxidizing biocide for bio-control"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "CW Operation Type",
+  "name": "System Blowdown & Flush",
+  "operation_name": "System Blowdown & Flush",
+  "category": "Flushing",
+  "standard_duration_hours": 1.5,
+  "is_active": 1,
+  "description": "Complete blowdown and fresh water replacement to lower cycles of concentration"
+ }
+]
