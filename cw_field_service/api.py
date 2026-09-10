@@ -205,6 +205,47 @@ def save_visit_draft(visit_id: str, data: Any = None, idempotency_key: Optional[
 
 
 @frappe.whitelist()
+def create_site_visit(
+	customer: str,
+	customer_name: Optional[str] = None,
+	service_location: Optional[str] = None,
+	visit_type: str = "Routine Inspection",
+	priority: str = "Medium",
+	planned_date: Optional[str] = None,
+	planned_start_time: Optional[str] = None,
+	service_request: Optional[str] = None,
+	instructions: Optional[str] = None,
+	idempotency_key: Optional[str] = None,
+) -> Dict[str, Any]:
+	"""
+	Creates a new CW Site Visit directly from mobile PWA.
+	Automatically assigns to current logged-in employee if engineer.
+	"""
+	if not frappe:
+		return {}
+
+	emp = get_current_employee()
+	doc = frappe.new_doc("CW Site Visit")
+	doc.customer = customer
+	if customer_name:
+		doc.customer_name = customer_name
+	if service_location:
+		doc.service_location = service_location
+	doc.visit_type = visit_type or "Routine Inspection"
+	doc.priority = priority or "Medium"
+	doc.planned_date = planned_date or frappe.utils.nowdate()
+	if planned_start_time:
+		doc.planned_start_time = planned_start_time
+	if service_request:
+		doc.service_request = service_request
+	if emp:
+		doc.assigned_engineer = emp
+
+	doc.insert(ignore_permissions=True)
+	return doc.as_dict()
+
+
+@frappe.whitelist()
 def submit_visit(
 	visit_id: str,
 	data: Any = None,
@@ -384,7 +425,20 @@ def sync_queued_visits(queue_payload: Any) -> Dict[str, Any]:
 		payload = item.get("payload", {})
 
 		try:
-			if action == "check_in":
+			if action == "create_visit":
+				res = create_site_visit(
+					customer=payload.get("customer"),
+					customer_name=payload.get("customer_name"),
+					service_location=payload.get("service_location"),
+					visit_type=payload.get("visit_type", "Routine Inspection"),
+					priority=payload.get("priority", "Medium"),
+					planned_date=payload.get("planned_date"),
+					planned_start_time=payload.get("planned_start_time"),
+					service_request=payload.get("service_request"),
+					instructions=payload.get("instructions"),
+					idempotency_key=idempotency_key,
+				)
+			elif action == "check_in":
 				res = check_in_visit(
 					visit_id=visit_id,
 					latitude=payload.get("latitude"),
