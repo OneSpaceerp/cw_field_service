@@ -66,6 +66,18 @@ class TestSiteVisit(unittest.TestCase):
 		self.assertEqual(visit.readings[1].status, "Warning")
 		self.assertEqual(visit.readings[2].status, "Warning")
 
+	def test_onsite_visit_geofence_verified(self):
+		visit = DummySiteVisit(
+			creation_source="Engineer On-Site",
+			geofence_status="Verified",
+			checkin_latitude=29.9720,
+			checkin_longitude=30.9410,
+			service_location=None,
+		)
+		# Validate geofence should not fail or raise when on-site and verified
+		visit.validate_geofence_and_distance()
+		self.assertEqual(visit.geofence_status, "Verified")
+
 
 if __name__ == "__main__":
 	unittest.main()

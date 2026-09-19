@@ -30,12 +30,69 @@ from cw_field_service.utils import evaluate_geofence
 
 class CWSiteVisit(Document):
 	def validate(self):
+		self.ensure_service_location_and_approval()
 		self.validate_geofence_and_distance()
 		self.calculate_duration()
 		self.validate_readings_ranges()
 		self.validate_mandatory_items()
 
+	def ensure_service_location_and_approval(self):
+		if not frappe or not getattr(self, "customer", None):
+			return
+
+		is_onsite = getattr(self, "creation_source", "") == "Engineer On-Site"
+
+		# If engineer created on-site with coordinates, use GPS as location approval
+		if is_onsite and getattr(self, "checkin_latitude", None) and getattr(self, "checkin_longitude", None):
+			if not getattr(self, "service_location", None):
+				loc = frappe.db.get_value("CW Service Location", {"customer": self.customer, "is_active": 1}, "name")
+				if loc:
+					self.service_location = loc
+				else:
+					import random
+					import string
+					rand_suffix = "".join(random.choices(string.ascii_uppercase + string.digits, k=4))
+					cust_clean = "".join(c for c in (self.customer or "SITE") if c.isalnum())[:8].upper()
+					site_code = f"SITE-{cust_clean}-{rand_suffix}"
+					try:
+						new_loc = frappe.get_doc({
+							"doctype": "CW Service Location",
+							"site_code": site_code,
+							"location_name": f"{getattr(self, 'customer_name', None) or self.customer} Site",
+							"customer": self.customer,
+							"is_active": 1,
+							"latitude": flt(self.checkin_latitude),
+							"longitude": flt(self.checkin_longitude),
+							"geofence_radius_meters": 200.0,
+						}).insert(ignore_permissions=True)
+						self.service_location = new_loc.name
+					except Exception:
+						pass
+
+			if getattr(self, "service_location", None):
+				loc_coords = frappe.db.get_value(
+					"CW Service Location",
+					self.service_location,
+					["latitude", "longitude"],
+					as_dict=True,
+				)
+				if loc_coords and (not loc_coords.latitude or not loc_coords.longitude):
+					frappe.db.set_value(
+						"CW Service Location",
+						self.service_location,
+						{
+							"latitude": flt(self.checkin_latitude),
+							"longitude": flt(self.checkin_longitude),
+						},
+						update_modified=False,
+					)
+				self.geofence_status = "Verified"
+				self.distance_to_site_meters = 0.0
+
 	def validate_geofence_and_distance(self):
+		if getattr(self, "creation_source", "") == "Engineer On-Site" and getattr(self, "geofence_status", "") == "Verified":
+			return
+
 		if not self.service_location:
 			return
 

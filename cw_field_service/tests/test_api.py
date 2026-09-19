@@ -30,6 +30,29 @@ class TestFieldServiceAPI(unittest.TestCase):
 		self.assertEqual(batch[0]["action"], "check_in")
 		self.assertEqual(batch[0]["idempotency_key"], "uuid-12345")
 
+	def test_create_visit_queue_payload(self):
+		create_payload = {
+			"idempotency_key": "uuid-create-99",
+			"visit_id": None,
+			"action": "create_visit",
+			"payload": {
+				"customer": "CUST-001",
+				"customer_name": "Al-Ahram Beverages",
+				"visit_type": "Emergency Breakdown",
+				"priority": "High",
+				"description": "RO membrane pressure failure detected on site",
+				"latitude": 29.9725,
+				"longitude": 30.9415,
+				"accuracy": 12.0,
+				"image_data": "data:image/jpeg;base64,/9j/4AAQSkZJRg==",
+				"image_name": "pressure_leak.jpg",
+			},
+		}
+		self.assertEqual(create_payload["action"], "create_visit")
+		self.assertEqual(create_payload["payload"]["customer"], "CUST-001")
+		self.assertEqual(create_payload["payload"]["latitude"], 29.9725)
+		self.assertTrue(create_payload["payload"]["image_data"].startswith("data:image/"))
+
 
 if __name__ == "__main__":
 	unittest.main()

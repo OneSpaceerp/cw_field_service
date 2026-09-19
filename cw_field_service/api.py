@@ -64,6 +64,8 @@ def get_assigned_visits(status: Optional[str] = None, date: Optional[str] = None
 			"checkout_time",
 			"geofence_status",
 			"outcome",
+			"description",
+			"site_photo",
 			"modified",
 		],
 		order_by="planned_date desc, creation desc",
@@ -211,15 +213,26 @@ def create_site_visit(
 	service_location: Optional[str] = None,
 	visit_type: str = "Routine Inspection",
 	priority: str = "Medium",
+	description: Optional[str] = None,
 	planned_date: Optional[str] = None,
 	planned_start_time: Optional[str] = None,
 	service_request: Optional[str] = None,
 	instructions: Optional[str] = None,
+	creation_source: str = "Engineer On-Site",
+	latitude: Optional[float] = None,
+	longitude: Optional[float] = None,
+	accuracy: Optional[float] = None,
+	image_data: Optional[str] = None,
+	image_name: Optional[str] = None,
 	idempotency_key: Optional[str] = None,
 ) -> Dict[str, Any]:
 	"""
 	Creates a new CW Site Visit directly from mobile PWA.
-	Automatically assigns to current logged-in employee if engineer.
+	For on-site engineer visits:
+	  - GPS coordinates represent customer location approval & check-in.
+	  - Visit status is set to 'In Progress'.
+	  - Photo is decoded and attached as site_photo and evidence item.
+	  - Automatically assigns to current logged-in employee if engineer.
 	"""
 	if not frappe:
 		return {}
@@ -229,6 +242,9 @@ def create_site_visit(
 	doc.customer = customer
 	if customer_name:
 		doc.customer_name = customer_name
+	elif frappe.db.exists("Customer", customer):
+		doc.customer_name = frappe.db.get_value("Customer", customer, "customer_name")
+
 	if service_location:
 		doc.service_location = service_location
 	doc.visit_type = visit_type or "Routine Inspection"
@@ -241,7 +257,50 @@ def create_site_visit(
 	if emp:
 		doc.assigned_engineer = emp
 
+	doc.creation_source = creation_source or "Engineer On-Site"
+	doc.description = description or instructions or ""
+
+	if doc.creation_source == "Engineer On-Site" or (latitude is not None and longitude is not None):
+		doc.visit_status = "In Progress"
+		doc.checkin_time = now_datetime()
+		if latitude is not None and longitude is not None:
+			doc.checkin_latitude = flt(latitude)
+			doc.checkin_longitude = flt(longitude)
+			doc.checkin_accuracy = flt(accuracy) if accuracy else None
+			doc.geofence_status = "Verified"
+			doc.distance_to_site_meters = 0.0
+
 	doc.insert(ignore_permissions=True)
+
+	# Handle photo attachment if image_data (base64) provided
+	if image_data:
+		try:
+			import base64
+			b64_content = image_data
+			if "," in b64_content:
+				b64_content = b64_content.split(",", 1)[1]
+			file_bytes = base64.b64decode(b64_content)
+			fname = image_name or f"visit_{doc.name}_site.jpg"
+			file_doc = frappe.get_doc({
+				"doctype": "File",
+				"file_name": fname,
+				"attached_to_doctype": "CW Site Visit",
+				"attached_to_name": doc.name,
+				"content": file_bytes,
+				"is_private": 0,
+			}).insert(ignore_permissions=True)
+
+			doc.site_photo = file_doc.file_url
+			doc.append("evidence", {
+				"file": file_doc.file_url,
+				"category": "Before Inspection",
+				"caption": "Site Check-in / Equipment Photo",
+				"timestamp": now_datetime(),
+			})
+			doc.save(ignore_permissions=True)
+		except Exception as e:
+			frappe.log_error(f"Failed to attach site photo to visit {doc.name}: {e}", "CW Field Service On-Site Visit")
+
 	return doc.as_dict()
 
 
@@ -394,13 +453,47 @@ def get_master_data() -> Dict[str, Any]:
 		filters={"is_active": 1},
 		fields=["name", "service_type_name", "default_sla_hours"],
 	)
+	customers = frappe.get_all(
+		"Customer",
+		filters={"disabled": 0},
+		fields=["name", "customer_name", "customer_type", "territory"],
+		limit=200,
+		order_by="customer_name asc",
+	)
 
 	return {
 		"parameters": parameters,
 		"finding_categories": finding_categories,
 		"operation_types": operation_types,
 		"service_types": service_types,
+		"customers": customers,
 	}
+
+
+@frappe.whitelist()
+def search_customers(query: str = "") -> List[Dict[str, Any]]:
+	"""
+	Search active customers for the mobile PWA Create Visit screen.
+	"""
+	if not frappe:
+		return []
+
+	filters = {"disabled": 0}
+	or_filters = []
+	if query:
+		or_filters = [
+			["Customer", "name", "like", f"%{query}%"],
+			["Customer", "customer_name", "like", f"%{query}%"],
+		]
+
+	return frappe.get_all(
+		"Customer",
+		filters=filters,
+		or_filters=or_filters if query else None,
+		fields=["name", "customer_name", "customer_type", "territory"],
+		limit=40,
+		order_by="customer_name asc",
+	)
 
 
 @frappe.whitelist()
@@ -432,10 +525,17 @@ def sync_queued_visits(queue_payload: Any) -> Dict[str, Any]:
 					service_location=payload.get("service_location"),
 					visit_type=payload.get("visit_type", "Routine Inspection"),
 					priority=payload.get("priority", "Medium"),
+					description=payload.get("description"),
 					planned_date=payload.get("planned_date"),
 					planned_start_time=payload.get("planned_start_time"),
 					service_request=payload.get("service_request"),
 					instructions=payload.get("instructions"),
+					creation_source=payload.get("creation_source", "Engineer On-Site"),
+					latitude=payload.get("latitude"),
+					longitude=payload.get("longitude"),
+					accuracy=payload.get("accuracy"),
+					image_data=payload.get("image_data"),
+					image_name=payload.get("image_name"),
 					idempotency_key=idempotency_key,
 				)
 			elif action == "check_in":

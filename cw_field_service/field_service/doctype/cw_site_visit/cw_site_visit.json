@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
+  "creation_source",
   "service_request",
   "customer",
   "customer_name",
@@ -22,11 +23,13 @@
   "planned_date",
   "planned_start_time",
   "planned_end_time",
+  "description",
   "section_checkin",
   "checkin_time",
   "checkin_latitude",
   "checkin_longitude",
   "checkin_accuracy",
+  "site_photo",
   "col_break_checkin",
   "distance_to_site_meters",
   "geofence_status",
@@ -75,6 +78,14 @@
    "reqd": 1
   },
   {
+   "default": "Admin Scheduled",
+   "fieldname": "creation_source",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Creation Source",
+   "options": "Admin Scheduled\nEngineer On-Site"
+  },
+  {
    "fieldname": "service_request",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -104,7 +115,7 @@
    "in_standard_filter": 1,
    "label": "Service Location",
    "options": "CW Service Location",
-   "reqd": 1
+   "reqd": 0
   },
   {
    "fieldname": "assigned_engineer",
@@ -182,6 +193,11 @@
    "label": "Planned End Time"
   },
   {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Visit Description / Scope of Work"
+  },
+  {
    "fieldname": "section_checkin",
    "fieldtype": "Section Break",
    "label": "Arrival & Check-in Evidence"
@@ -211,6 +227,11 @@
    "fieldtype": "Float",
    "label": "Check-in GPS Accuracy (Meters)",
    "read_only": 1
+  },
+  {
+   "fieldname": "site_photo",
+   "fieldtype": "Attach Image",
+   "label": "Check-in / Site Photo"
   },
   {
    "fieldname": "col_break_checkin",
