@@ -14,6 +14,7 @@
   "col_break_1",
   "latitude",
   "longitude",
+  "map_link_html",
   "geofence_radius_meters",
   "water_source_type",
   "section_contact",
@@ -79,6 +80,11 @@
    "fieldtype": "Float",
    "label": "Longitude",
    "precision": "6"
+  },
+  {
+   "fieldname": "map_link_html",
+   "fieldtype": "HTML",
+   "label": "Map Location"
   },
   {
    "default": "200.0",

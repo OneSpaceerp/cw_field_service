@@ -31,6 +31,14 @@ frappe.ui.form.on("CW Site Visit", {
 				}, __("Field Actions"));
 			}
 
+			// View Check-in Location on Google Maps
+			if (frm.doc.checkin_latitude && frm.doc.checkin_longitude) {
+				frm.add_custom_button(__("View GPS on Google Maps"), function () {
+					const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(frm.doc.checkin_latitude + "," + frm.doc.checkin_longitude)}`;
+					window.open(url, "_blank", "noopener,noreferrer");
+				}, __("Field Actions"));
+			}
+
 			// Populate Checklist Template
 			if (!frm.doc.checklist_items || frm.doc.checklist_items.length === 0) {
 				frm.add_custom_button(__("Load Checklist Template"), function () {
