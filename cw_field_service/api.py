@@ -231,6 +231,30 @@ def ensure_finding_category(cat_name: str) -> str:
 	return cat_name
 
 
+def add_cors_headers():
+	"""Ensures CORS headers are always attached to responses for app.cw-eg.com and other origins."""
+	if not frappe:
+		return
+	origin = None
+	try:
+		if hasattr(frappe, "get_request_header"):
+			origin = frappe.get_request_header("Origin")
+	except Exception:
+		pass
+
+	allowed = origin or "https://app.cw-eg.com"
+	if hasattr(frappe, "local") and hasattr(frappe.local, "response"):
+		headers = frappe.local.response.setdefault("headers", {})
+		headers["Access-Control-Allow-Origin"] = allowed
+		headers["Access-Control-Allow-Credentials"] = "true"
+		headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS, PUT, DELETE"
+		headers["Access-Control-Allow-Headers"] = (
+			"Authorization, Content-Type, Accept, Origin, User-Agent, DNT, "
+			"Cache-Control, X-Mx-ReqToken, Keep-Alive, X-Requested-With, "
+			"If-Modified-Since, X-Frappe-CSRF-Token"
+		)
+
+
 @frappe.whitelist(allow_guest=True)
 def get_assigned_visits(status: Optional[str] = None, date: Optional[str] = None) -> List[Dict[str, Any]]:
 	"""
@@ -238,6 +262,10 @@ def get_assigned_visits(status: Optional[str] = None, date: Optional[str] = None
 	Mobile-optimized lightweight payload.
 	"""
 	if not frappe:
+		return []
+
+	add_cors_headers()
+	if hasattr(frappe, "request") and getattr(frappe.request, "method", "") == "OPTIONS":
 		return []
 
 	emp = get_current_employee()
@@ -289,6 +317,10 @@ def get_visit_details(visit_id: str) -> Dict[str, Any]:
 	Returns complete visit payload for execution in the PWA.
 	"""
 	if not frappe:
+		return {}
+
+	add_cors_headers()
+	if hasattr(frappe, "request") and getattr(frappe.request, "method", "") == "OPTIONS":
 		return {}
 
 	if not frappe.db.exists("CW Site Visit", visit_id):
@@ -355,6 +387,10 @@ def check_in_visit(
 	if not frappe:
 		return {}
 
+	add_cors_headers()
+	if hasattr(frappe, "request") and getattr(frappe.request, "method", "") == "OPTIONS":
+		return {}
+
 	doc = frappe.get_doc("CW Site Visit", visit_id)
 	if doc.docstatus != 0:
 		frappe.throw(_("Cannot check in to a submitted or cancelled visit."))
@@ -388,6 +424,10 @@ def save_visit_draft(visit_id: str, data: Any = None, idempotency_key: Optional[
 	Saves in-progress draft sections sent from the mobile client.
 	"""
 	if not frappe:
+		return {}
+
+	add_cors_headers()
+	if hasattr(frappe, "request") and getattr(frappe.request, "method", "") == "OPTIONS":
 		return {}
 
 	doc = frappe.get_doc("CW Site Visit", visit_id)
@@ -531,6 +571,10 @@ def create_site_visit(
 	  - Explicitly commits to MariaDB so Desk immediately shows the record.
 	"""
 	if not frappe:
+		return {}
+
+	add_cors_headers()
+	if hasattr(frappe, "request") and getattr(frappe.request, "method", "") == "OPTIONS":
 		return {}
 
 	# 1. Resolve Customer ID and Customer Name safely
@@ -814,6 +858,10 @@ def submit_visit(
 	if not frappe:
 		return {}
 
+	add_cors_headers()
+	if hasattr(frappe, "request") and getattr(frappe.request, "method", "") == "OPTIONS":
+		return {}
+
 	doc = frappe.get_doc("CW Site Visit", visit_id)
 
 	# Idempotency check: If already submitted / pending review
@@ -953,6 +1001,10 @@ def upload_visit_evidence(
 	if not frappe:
 		return {}
 
+	add_cors_headers()
+	if hasattr(frappe, "request") and getattr(frappe.request, "method", "") == "OPTIONS":
+		return {}
+
 	doc = frappe.get_doc("CW Site Visit", visit_id)
 	files = getattr(frappe.request, "files", {}) or {}
 
@@ -991,6 +1043,10 @@ def get_master_data() -> Dict[str, Any]:
 	Returns lightweight catalog bundle for mobile offline caching.
 	"""
 	if not frappe:
+		return {}
+
+	add_cors_headers()
+	if hasattr(frappe, "request") and getattr(frappe.request, "method", "") == "OPTIONS":
 		return {}
 
 	parameters = frappe.get_all(
@@ -1038,6 +1094,10 @@ def search_customers(query: str = "") -> List[Dict[str, Any]]:
 	if not frappe:
 		return []
 
+	add_cors_headers()
+	if hasattr(frappe, "request") and getattr(frappe.request, "method", "") == "OPTIONS":
+		return []
+
 	filters = {"disabled": 0}
 	or_filters = []
 	if query:
@@ -1062,6 +1122,10 @@ def sync_queued_visits(queue_payload: Any) -> Dict[str, Any]:
 	Processes a batch of queued actions from mobile offline storage idempotently.
 	"""
 	if not frappe:
+		return {}
+
+	add_cors_headers()
+	if hasattr(frappe, "request") and getattr(frappe.request, "method", "") == "OPTIONS":
 		return {}
 
 	if isinstance(queue_payload, str):
